@@ -1,0 +1,60 @@
+<section class="space-y-6">
+  @if (showTitle()) {
+    <div class="flex items-end justify-between gap-4">
+      <div class="space-y-1">
+        <h1 class="text-2xl font-semibold tracking-tight text-slate-900">{{ sectionTitle() }}</h1>
+        @if (activeCategory$ | async; as activeCategory) {
+          <p class="text-sm text-slate-600">
+            Filtering by:
+            <span class="font-semibold text-slate-900">{{ activeCategory | titlecase }}</span>
+          </p>
+        }
+      </div>
+      <a routerLink="/products" class="text-sm font-medium text-blue-600 hover:text-blue-700">Browse all</a>
+    </div>
+  }
+
+  @if (error$ | async; as errorMessage) {
+    <div class="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+      {{ errorMessage }}
+    </div>
+  }
+
+  @if (loading$ | async) {
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      @for (item of [1, 2, 3, 4]; track item) {
+        <article class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div class="h-36 animate-pulse bg-slate-200"></div>
+          <div class="space-y-2 p-4">
+            <div class="h-3 w-20 animate-pulse rounded bg-slate-200"></div>
+            <div class="h-5 w-3/4 animate-pulse rounded bg-slate-200"></div>
+            <div class="h-4 w-16 animate-pulse rounded bg-slate-200"></div>
+          </div>
+        </article>
+      }
+    </div>
+  } @else {
+    @if (products$ | async; as products) {
+      @if (products.length === 0) {
+        <div class="rounded-md border border-slate-200 bg-white px-4 py-6 text-sm text-slate-600">
+          No products found for this category.
+        </div>
+      } @else {
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          @for (product of products; track product.id) {
+            <article class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+              <div class="flex h-36 items-center justify-center bg-white p-4">
+                <img [src]="product.image" [alt]="product.title" class="max-h-full w-auto object-contain" />
+              </div>
+              <div class="space-y-2 p-4">
+                <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">{{ product.category | titlecase }}</p>
+                <h3 class="line-clamp-2 text-base font-semibold text-slate-900">{{ product.title }}</h3>
+                <p class="text-sm font-medium text-slate-700">{{ product.price | currency }}</p>
+              </div>
+            </article>
+          }
+        </div>
+      }
+    }
+  }
+</section>

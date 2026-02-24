@@ -1,0 +1,98 @@
+:host {
+  display: block;
+}
+
+.navbar {
+  border-bottom: 1px solid #e2e8f0;
+  background: #fff;
+}
+
+.navbar-inner {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.navbar-left,
+.navbar-nav,
+.navbar-right,
+.navbar-cart {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-left {
+  gap: 2rem;
+}
+
+.navbar-nav {
+  gap: 1.5rem;
+}
+
+.navbar-right {
+  gap: 1rem;
+}
+
+.navbar-logo {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #0f172a;
+  text-decoration: none;
+}
+
+.navbar-link {
+  font-size: 0.925rem;
+  font-weight: 500;
+  color: #334155;
+  text-decoration: none;
+}
+
+.navbar-logo:hover,
+.navbar-link:hover {
+  color: #2563eb;
+}
+
+.navbar-search {
+  width: 14rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+}
+
+.navbar-cart {
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.375rem;
+  color: #334155;
+  text-decoration: none;
+}
+
+.navbar-cart:hover {
+  border-color: #94a3b8;
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+.navbar-cart-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+}
+
+.navbar-badge {
+  min-width: 1.25rem;
+  padding: 0.125rem 0.375rem;
+  border-radius: 9999px;
+  background: #0f172a;
+  color: #fff;
+  font-size: 0.75rem;
+  line-height: 1;
+  text-align: center;
+}
