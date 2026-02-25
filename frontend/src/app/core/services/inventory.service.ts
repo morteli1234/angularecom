@@ -52,10 +52,62 @@ export class InventoryService {
       .subscribe();
   }
 
+  getItemById(productId: number): InventoryItem | undefined {
+    return this.inventorySubject.value.find((item) => item.id === productId);
+  }
+
+  decreaseStock(productId: number, amount = 1): boolean {
+    if (amount <= 0) {
+      return false;
+    }
+
+    const item = this.getItemById(productId);
+    if (!item || item.quantity < amount) {
+      return false;
+    }
+
+    this.updateQuantity(productId, item.quantity - amount);
+    return true;
+  }
+
+  increaseStock(productId: number, amount = 1): void {
+    if (amount <= 0) {
+      return;
+    }
+
+    const item = this.getItemById(productId);
+    if (!item) {
+      return;
+    }
+
+    this.updateQuantity(productId, item.quantity + amount);
+  }
+
+  setStock(productId: number, quantity: number): void {
+    if (quantity < 0) {
+      return;
+    }
+
+    const item = this.getItemById(productId);
+    if (!item) {
+      return;
+    }
+
+    this.updateQuantity(productId, quantity);
+  }
+
   private toInventoryItem(product: Product): InventoryItem {
     return {
       ...product,
       quantity: 10
     };
+  }
+
+  private updateQuantity(productId: number, quantity: number): void {
+    const updatedInventory = this.inventorySubject.value.map((item) =>
+      item.id === productId ? { ...item, quantity } : item
+    );
+
+    this.inventorySubject.next(updatedInventory);
   }
 }
