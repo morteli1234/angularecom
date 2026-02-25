@@ -16,8 +16,7 @@ interface HeroCategory {
   selector: 'app-home',
   standalone: true,
   imports: [RouterLink, ProductListComponent, AsyncPipe],
-  templateUrl: './home.html',
-  styleUrl: './home.css'
+  templateUrl: './home.html'
 })
 export class HomeComponent implements OnInit {
   private readonly inventoryService = inject(InventoryService);

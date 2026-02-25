@@ -1,40 +1,41 @@
-<header class="navbar border-b border-slate-200 bg-white">
-  <div class="navbar-inner mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4 sm:px-6 lg:px-8">
-    <div class="navbar-left flex items-center gap-8">
+<header class="border-b border-slate-200 bg-white">
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4 sm:px-6 lg:px-8">
+    <div class="flex items-center gap-8">
       <a
         routerLink="/"
-        class="navbar-logo text-xl font-semibold tracking-tight text-slate-900 transition hover:text-blue-600"
+        class="text-xl font-semibold tracking-tight text-slate-900 transition hover:text-blue-600"
       >
         AngularEcom
       </a>
 
-      <nav class="navbar-nav flex items-center gap-6 text-sm font-medium text-slate-700">
-        <a routerLink="/" class="navbar-link transition hover:text-blue-600">Home</a>
-        <a routerLink="/products" class="navbar-link transition hover:text-blue-600">Products</a>
+      <nav class="flex items-center gap-6 text-sm font-medium text-slate-700">
+        <a routerLink="/" class="transition hover:text-blue-600">Home</a>
+        <a routerLink="/products" class="transition hover:text-blue-600">Products</a>
       </nav>
     </div>
 
-    <div class="navbar-right flex items-center gap-4">
+    <div class="flex items-center gap-4">
       <input
         type="text"
         placeholder="Search products..."
-        class="navbar-search w-56 rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+        class="w-56 rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
       />
 
-      <a
-        routerLink="/cart"
-        class="navbar-cart flex items-center gap-2 rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
+      <button
+        type="button"
+        (click)="onCartClick()"
+        class="flex items-center gap-2 rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
       >
-        <svg class="navbar-cart-icon h-5 w-5" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <svg class="h-5 w-5" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
           <path stroke-linecap="round" stroke-linejoin="round" d="M2.5 3.5h2.2l2.3 10.3a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8l1.5-6.6H7.2" />
           <circle cx="10" cy="19.2" r="1.2" />
           <circle cx="17" cy="19.2" r="1.2" />
         </svg>
         <span>Cart</span>
-        <span class="navbar-badge inline-flex min-w-5 items-center justify-center rounded-full bg-slate-900 px-1.5 py-0.5 text-xs font-semibold leading-none text-white">
-          0
+        <span class="inline-flex min-w-5 items-center justify-center rounded-full bg-slate-900 px-1.5 py-0.5 text-xs font-semibold leading-none text-white">
+          {{ (itemCount$ | async) ?? 0 }}
         </span>
-      </a>
+      </button>
     </div>
   </div>
 </header>

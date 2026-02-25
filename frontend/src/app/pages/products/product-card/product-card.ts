@@ -11,8 +11,7 @@ interface AddToCartPayload {
   selector: 'app-product-card',
   standalone: true,
   imports: [CurrencyPipe, TitleCasePipe],
-  templateUrl: './product-card.html',
-  styleUrl: './product-card.css'
+  templateUrl: './product-card.html'
 })
 export class ProductCardComponent {
   readonly item = input.required<InventoryItem>();

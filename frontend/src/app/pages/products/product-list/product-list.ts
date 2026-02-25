@@ -2,6 +2,7 @@ import { AsyncPipe, TitleCasePipe } from '@angular/common';
 import { Component, OnInit, inject, input } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { combineLatest, map } from 'rxjs';
+import { CartService } from '../../../core/services/cart.service';
 import { InventoryService } from '../../../core/services/inventory.service';
 import { ProductCardComponent } from '../product-card/product-card';
 
@@ -14,8 +15,7 @@ interface AddToCartPayload {
   selector: 'app-product-list',
   standalone: true,
   imports: [RouterLink, AsyncPipe, TitleCasePipe, ProductCardComponent],
-  templateUrl: './product-list.html',
-  styleUrl: './product-list.css'
+  templateUrl: './product-list.html'
 })
 export class ProductListComponent implements OnInit {
   readonly showTitle = input(true);
@@ -23,6 +23,7 @@ export class ProductListComponent implements OnInit {
   readonly showStockControls = input(true);
 
   private readonly inventoryService = inject(InventoryService);
+  private readonly cartService = inject(CartService);
   private readonly route = inject(ActivatedRoute);
 
   protected readonly loading$ = this.inventoryService.loading$;
@@ -48,6 +49,24 @@ export class ProductListComponent implements OnInit {
   }
 
   protected onAdd(payload: AddToCartPayload): void {
-    this.inventoryService.decreaseStock(payload.productId, payload.quantity);
+    const item = this.inventoryService.getItemById(payload.productId);
+    if (!item) {
+      return;
+    }
+
+    const didDecrease = this.inventoryService.decreaseStock(payload.productId, payload.quantity);
+    if (!didDecrease) {
+      return;
+    }
+
+    this.cartService.addToCart(
+      {
+        productId: item.id,
+        title: item.title,
+        price: item.price,
+        image: item.image
+      },
+      payload.quantity
+    );
   }
 }
