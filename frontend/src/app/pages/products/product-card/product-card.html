@@ -1,21 +1,21 @@
-<article class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+<article class="flex h-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
   <a [routerLink]="['/products', item().id]" class="block">
     <div class="flex h-36 items-center justify-center bg-white p-4">
       <img [src]="item().image" [alt]="item().title" class="max-h-full w-auto object-contain" />
     </div>
   </a>
 
-  <div class="space-y-2 p-4">
+  <div class="flex flex-1 flex-col space-y-2 p-4">
     <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">{{ item().category | titlecase }}</p>
     <a [routerLink]="['/products', item().id]" class="block">
-      <h3 class="line-clamp-2 text-base font-semibold text-slate-900 hover:text-blue-600">{{ item().title }}</h3>
+      <h3 class="line-clamp-2 min-h-12 text-base font-semibold text-slate-900 hover:text-blue-600">{{ item().title }}</h3>
     </a>
     <p class="text-sm font-medium text-slate-700">{{ item().price | currency }}</p>
 
     @if (showStockControls()) {
       <p class="pt-1 text-xs font-medium text-slate-600">In stock: {{ item().quantity }}</p>
 
-      <div class="flex items-center gap-2 pt-1">
+      <div class="mt-auto flex items-center gap-2 pt-1">
         <input
           type="number"
           min="1"
