@@ -1,11 +1,15 @@
 <article class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-  <div class="flex h-36 items-center justify-center bg-white p-4">
-    <img [src]="item().image" [alt]="item().title" class="max-h-full w-auto object-contain" />
-  </div>
+  <a [routerLink]="['/products', item().id]" class="block">
+    <div class="flex h-36 items-center justify-center bg-white p-4">
+      <img [src]="item().image" [alt]="item().title" class="max-h-full w-auto object-contain" />
+    </div>
+  </a>
 
   <div class="space-y-2 p-4">
     <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">{{ item().category | titlecase }}</p>
-    <h3 class="line-clamp-2 text-base font-semibold text-slate-900">{{ item().title }}</h3>
+    <a [routerLink]="['/products', item().id]" class="block">
+      <h3 class="line-clamp-2 text-base font-semibold text-slate-900 hover:text-blue-600">{{ item().title }}</h3>
+    </a>
     <p class="text-sm font-medium text-slate-700">{{ item().price | currency }}</p>
 
     @if (showStockControls()) {

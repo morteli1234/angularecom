@@ -1,5 +1,6 @@
 import { CurrencyPipe, TitleCasePipe } from '@angular/common';
 import { Component, input, output } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { InventoryItem } from '../../../core/models/product.model';
 
 interface AddToCartPayload {
@@ -10,7 +11,7 @@ interface AddToCartPayload {
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [CurrencyPipe, TitleCasePipe],
+  imports: [CurrencyPipe, TitleCasePipe, RouterLink],
   templateUrl: './product-card.html'
 })
 export class ProductCardComponent {
