@@ -12,3 +12,7 @@ export interface Product {
   image: string;
   rating: ProductRating;
 }
+
+export type InventoryItem = Product & {
+  quantity: number;
+};

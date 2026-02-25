@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, catchError, finalize, map, of, tap } from 'rxjs';
-import { Product } from '../models/product.model';
+import { InventoryItem, Product } from '../models/product.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -11,7 +11,7 @@ export class InventoryService {
   private readonly http = inject(HttpClient);
   private hasLoaded = false;
 
-  private readonly inventorySubject = new BehaviorSubject<Product[]>([]);
+  private readonly inventorySubject = new BehaviorSubject<InventoryItem[]>([]);
   private readonly loadingSubject = new BehaviorSubject<boolean>(false);
   private readonly errorSubject = new BehaviorSubject<string | null>(null);
 
@@ -38,7 +38,7 @@ export class InventoryService {
       .get<Product[]>(`${environment.apiBaseUrl}${environment.endpoints.products}`)
       .pipe(
         tap((products) => {
-          this.inventorySubject.next(products);
+          this.inventorySubject.next(products.map((product) => this.toInventoryItem(product)));
           this.hasLoaded = true;
         }),
         catchError((error) => {
@@ -50,5 +50,12 @@ export class InventoryService {
         finalize(() => this.loadingSubject.next(false))
       )
       .subscribe();
+  }
+
+  private toInventoryItem(product: Product): InventoryItem {
+    return {
+      ...product,
+      quantity: 10
+    };
   }
 }
