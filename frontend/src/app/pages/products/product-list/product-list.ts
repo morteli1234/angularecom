@@ -1,19 +1,26 @@
-import { AsyncPipe, CurrencyPipe, TitleCasePipe } from '@angular/common';
+import { AsyncPipe, TitleCasePipe } from '@angular/common';
 import { Component, OnInit, inject, input } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { combineLatest, map } from 'rxjs';
 import { InventoryService } from '../../../core/services/inventory.service';
+import { ProductCardComponent } from '../product-card/product-card';
+
+interface AddToCartPayload {
+  productId: number;
+  quantity: number;
+}
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [RouterLink, AsyncPipe, CurrencyPipe, TitleCasePipe],
+  imports: [RouterLink, AsyncPipe, TitleCasePipe, ProductCardComponent],
   templateUrl: './product-list.html',
   styleUrl: './product-list.css'
 })
 export class ProductListComponent implements OnInit {
   readonly showTitle = input(true);
   readonly sectionTitle = input('Featured Products');
+  readonly showStockControls = input(true);
 
   private readonly inventoryService = inject(InventoryService);
   private readonly route = inject(ActivatedRoute);
@@ -38,5 +45,9 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this.inventoryService.loadInventory();
+  }
+
+  protected onAdd(payload: AddToCartPayload): void {
+    this.inventoryService.decreaseStock(payload.productId, payload.quantity);
   }
 }
