@@ -34,20 +34,74 @@
       }
     </div>
   } @else {
-    @if (products$ | async; as products) {
-      @if (products.length === 0) {
+    @if (pagination(); as pagination) {
+      @if (pagination.totalItems === 0) {
         <div class="rounded-md border border-slate-200 bg-white px-4 py-6 text-sm text-slate-600">
           No products found for this category.
         </div>
       } @else {
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          @for (product of products; track product.id) {
+          @for (product of pagination.products; track product.id) {
             <app-product-card
               [item]="product"
               [showStockControls]="showStockControls()"
               (add)="onAdd($event)"
             ></app-product-card>
           }
+        </div>
+
+        <div class="mt-6 flex flex-col gap-3 rounded-md border border-slate-200 bg-white p-3 sm:flex-row sm:items-center sm:justify-between">
+          <p class="text-sm text-slate-600">
+            Showing {{ pagination.startItem }}-{{ pagination.endItem }} of {{ pagination.totalItems }}
+          </p>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <label for="page-size" class="text-sm text-slate-600">Per page</label>
+            <select
+              id="page-size"
+              [value]="pagination.pageSize"
+              (change)="onPageSizeChange($event)"
+              class="rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-700"
+            >
+              @for (size of pageSizeOptions; track size) {
+                <option [value]="size">{{ size }}</option>
+              }
+            </select>
+
+            <button
+              type="button"
+              (click)="goToPreviousPage(pagination.currentPage)"
+              [disabled]="pagination.currentPage === 1"
+              class="rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-700 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Prev
+            </button>
+
+            @for (page of pageNumbers(pagination.totalPages); track page) {
+              <button
+                type="button"
+                (click)="goToPage(page)"
+                class="rounded-md border px-2 py-1 text-sm"
+                [class.border-slate-900]="page === pagination.currentPage"
+                [class.bg-slate-900]="page === pagination.currentPage"
+                [class.text-white]="page === pagination.currentPage"
+                [class.border-slate-300]="page !== pagination.currentPage"
+                [class.bg-white]="page !== pagination.currentPage"
+                [class.text-slate-700]="page !== pagination.currentPage"
+              >
+                {{ page }}
+              </button>
+            }
+
+            <button
+              type="button"
+              (click)="goToNextPage(pagination.currentPage, pagination.totalPages)"
+              [disabled]="pagination.currentPage === pagination.totalPages"
+              class="rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-700 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
         </div>
       }
     }
