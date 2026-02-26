@@ -17,7 +17,7 @@ interface AddToCartPayload {
   selector: 'app-product-list',
   standalone: true,
   imports: [RouterLink, AsyncPipe, TitleCasePipe, ProductCardComponent],
-  templateUrl: './product-list.html'
+  templateUrl: './product-list.html',
 })
 export class ProductListComponent implements OnInit {
   readonly showTitle = input(true);
@@ -34,23 +34,26 @@ export class ProductListComponent implements OnInit {
   protected readonly error$ = this.inventoryService.error$;
   protected readonly pageSizeOptions = [8, 10] as const;
   protected readonly activeCategory$ = this.route.paramMap.pipe(
-    map((params) => params.get('category'))
+    map((params) => params.get('category')),
   );
   protected readonly products$ = combineLatest([
     this.inventoryService.inventory$,
-    this.activeCategory$
+    this.activeCategory$,
   ]).pipe(
     map(([products, category]) => {
       if (!category) {
         return products;
       }
 
-      return products.filter((product) => product.category.toLowerCase() === category.toLowerCase());
-    })
+      return products.filter(
+        (product) => product.category.toLowerCase() === category.toLowerCase(),
+      );
+    }),
   );
   protected readonly products = toSignal(this.products$, {
-    initialValue: [] as InventoryItem[]
+    initialValue: [] as InventoryItem[],
   });
+
   protected readonly pagination = computed(() => {
     const products = this.products();
     const currentPage = this.currentPage();
@@ -68,7 +71,7 @@ export class ProductListComponent implements OnInit {
       currentPage: safePage,
       pageSize,
       startItem: totalItems === 0 ? 0 : startIndex + 1,
-      endItem: Math.min(startIndex + pageSize, totalItems)
+      endItem: Math.min(startIndex + pageSize, totalItems),
     };
   });
 
@@ -128,9 +131,9 @@ export class ProductListComponent implements OnInit {
         productId: item.id,
         title: item.title,
         price: item.price,
-        image: item.image
+        image: item.image,
       },
-      payload.quantity
+      payload.quantity,
     );
   }
 }
