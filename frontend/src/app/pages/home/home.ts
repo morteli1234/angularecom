@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { map } from 'rxjs';
 import { InventoryService } from '../../core/services/inventory.service';
+import { InventoryItem } from '../../core/models/product.model';
 import {
   HeroCategory,
   HomeCategoriesSectionComponent,
@@ -30,9 +31,9 @@ export class HomeComponent implements OnInit {
     route: ['/products'],
   };
 
-  protected readonly categories$ = this.inventoryService.categories$.pipe(
-    map((categories) => {
-      const apiCards = categories.map((category) => this.toHeroCategory(category));
+  protected readonly categories$ = this.inventoryService.inventory$.pipe(
+    map((products) => {
+      const apiCards = this.buildHeroCategories(products);
       return [...apiCards, this.footCategory];
     }),
   );
@@ -41,7 +42,23 @@ export class HomeComponent implements OnInit {
     this.inventoryService.loadInventory();
   }
 
-  private toHeroCategory(category: string): HeroCategory {
+  private buildHeroCategories(products: InventoryItem[]): HeroCategory[] {
+    const firstImageByCategory = new Map<string, string>();
+    const categoryOrder: string[] = [];
+
+    for (const product of products) {
+      if (!firstImageByCategory.has(product.category)) {
+        firstImageByCategory.set(product.category, product.image);
+        categoryOrder.push(product.category);
+      }
+    }
+
+    return categoryOrder.map((category) =>
+      this.toHeroCategory(category, firstImageByCategory.get(category)),
+    );
+  }
+
+  private toHeroCategory(category: string, image?: string): HeroCategory {
     const normalized = category.toLowerCase();
     const descriptionMap: Record<string, string> = {
       electronics: 'Devices and daily tech picks',
@@ -55,6 +72,7 @@ export class HomeComponent implements OnInit {
       name: this.toDisplayName(category),
       description: descriptionMap[normalized] ?? 'Explore this collection',
       route: ['/products/category', category],
+      image,
     };
   }
 

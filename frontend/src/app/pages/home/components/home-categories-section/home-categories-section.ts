@@ -8,6 +8,7 @@ export interface HeroCategory {
   name: string;
   description: string;
   route: readonly [string] | readonly [string, string];
+  image?: string;
 }
 
 @Component({
@@ -47,5 +48,13 @@ export class HomeCategoriesSectionComponent {
     ];
 
     return tones[index % tones.length];
+  }
+
+  protected categoryImageFrameClasses(index: number, categoryCount: number): string {
+    if (categoryCount >= 5 && index === 0) {
+      return 'w-1/2 md:w-2/5';
+    }
+
+    return 'w-1/2';
   }
 }
