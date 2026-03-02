@@ -59,7 +59,7 @@
     </div>
   }
 
-  @if (loading$ | async) {
+  @if ((loading$ | async) && products().length === 0) {
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
       @for (item of [1, 2, 3, 4]; track item) {
         <article class="overflow-hidden rounded-xl border border-stone-200 bg-stone-50 shadow-sm">

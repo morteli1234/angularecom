@@ -1,2 +1,47 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'tailwindcss';
+
+@theme {
+  --animate-spotlight-top: spotlight-top 5s ease-in-out infinite;
+  --animate-spotlight-middle: spotlight-middle 5s ease-in-out infinite;
+  --animate-spotlight-bottom: spotlight-bottom 5s ease-in-out infinite;
+
+  @keyframes spotlight-top {
+    0%,
+    55%,
+    100% {
+      opacity: 1;
+    }
+
+    62%,
+    70% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes spotlight-middle {
+    0%,
+    58%,
+    100% {
+      opacity: 1;
+    }
+
+    65%,
+    73% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes spotlight-bottom {
+    0%,
+    61%,
+    100% {
+      opacity: 1;
+    }
+
+    68%,
+    76% {
+      opacity: 0;
+    }
+  }
+}
