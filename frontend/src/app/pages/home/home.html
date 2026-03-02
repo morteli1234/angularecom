@@ -1,10 +1,15 @@
-<div class="mx-auto flex w-full max-w-7xl flex-col gap-12 px-4 py-8 sm:px-6 lg:px-8">
-  <app-home-categories-section [categories$]="categories$"></app-home-categories-section>
-  <app-home-spotlight-section></app-home-spotlight-section>
-
+<app-home-categories-section [categories$]="categories$"></app-home-categories-section>
+<div class="mx-auto flex w-full max-w-7xl flex-col gap-12 px-4 py-8 md:px-6 lg:px-8 lg:py-12 font-sans text-neutral-900">
   <section>
-    <app-product-list [showTitle]="true" sectionTitle="Trending Products" [showStockControls]="false"></app-product-list>
+    <app-product-list
+      [showTitle]="true"
+      sectionTitle="Trending Products"
+      [showStockControls]="false"
+      [showCategoryTabs]="true"
+      [useContainer]="false"
+    ></app-product-list>
   </section>
 
+  <app-home-spotlight-section></app-home-spotlight-section>
   <app-home-trend-columns-section></app-home-trend-columns-section>
 </div>

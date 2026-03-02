@@ -23,6 +23,8 @@ export class ProductListComponent implements OnInit {
   readonly showTitle = input(true);
   readonly sectionTitle = input('Featured Products');
   readonly showStockControls = input(true);
+  readonly showCategoryTabs = input(false);
+  readonly useContainer = input(true);
 
   private readonly inventoryService = inject(InventoryService);
   private readonly cartService = inject(CartService);
@@ -32,6 +34,7 @@ export class ProductListComponent implements OnInit {
 
   protected readonly loading$ = this.inventoryService.loading$;
   protected readonly error$ = this.inventoryService.error$;
+  protected readonly categories$ = this.inventoryService.categories$;
   protected readonly pageSizeOptions = [8, 10] as const;
   protected readonly activeCategory$ = this.route.paramMap.pipe(
     map((params) => params.get('category')),
@@ -113,6 +116,14 @@ export class ProductListComponent implements OnInit {
 
   protected pageNumbers(totalPages: number): number[] {
     return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  protected categoryRoute(category?: string): readonly [string] | readonly [string, string] {
+    if (!category) {
+      return ['/products'];
+    }
+
+    return ['/products/category', category];
   }
 
   protected onAdd(payload: AddToCartPayload): void {

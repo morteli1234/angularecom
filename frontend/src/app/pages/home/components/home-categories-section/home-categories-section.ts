@@ -20,13 +20,32 @@ export class HomeCategoriesSectionComponent {
   readonly categories$ = input.required<Observable<HeroCategory[]>>();
 
   protected categoryGridClasses(categoryCount: number): string {
-    return categoryCount % 2 === 1
-      ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-[minmax(11rem,1fr)]'
-      : 'grid-cols-1 sm:grid-cols-2';
+    return categoryCount >= 5
+      ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2'
+      : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4';
   }
 
   protected categoryCardClasses(index: number, categoryCount: number): string {
-    const hasOddCount = categoryCount % 2 === 1;
-    return hasOddCount && index === 0 ? 'sm:col-span-2 lg:col-span-2 lg:row-span-2' : '';
+    if (categoryCount < 5) {
+      return 'min-h-56 lg:min-h-64';
+    }
+
+    if (index === 0) {
+      return 'min-h-72 md:col-span-2 lg:col-span-2 lg:row-span-2 lg:min-h-[34rem]';
+    }
+
+    return 'min-h-56 lg:min-h-[16.5rem]';
+  }
+
+  protected categoryToneClasses(index: number): string {
+    const tones = [
+      'bg-stone-200',
+      'bg-emerald-100',
+      'bg-violet-100',
+      'bg-rose-100',
+      'bg-sky-100',
+    ];
+
+    return tones[index % tones.length];
   }
 }
