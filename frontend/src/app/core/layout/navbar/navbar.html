@@ -7,10 +7,23 @@
       >
         AngularEcom
       </a>
-
+    </div>
+    <div>
       <nav class="flex items-center gap-6 text-sm font-medium text-slate-700">
-        <a routerLink="/" class="transition hover:text-blue-600">Home</a>
-        <a routerLink="/products" class="transition hover:text-blue-600">Products</a>
+        @if (categories$() | async; as categories) {
+          @for (category of categories; track category) {
+            <a
+              [routerLink]="['/products']"
+              [queryParams]="{ category: category }"
+              class="transition hover:text-blue-600"
+            >
+              {{ category }}
+            </a>
+          }
+        }
+
+        <!-- <a routerLink="/" class="transition hover:text-blue-600">Home</a>
+        <a routerLink="/products" class="transition hover:text-blue-600">Products</a> -->
       </nav>
     </div>
 
