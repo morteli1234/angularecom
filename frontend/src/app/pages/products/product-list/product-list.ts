@@ -1,7 +1,7 @@
 import { AsyncPipe, TitleCasePipe } from '@angular/common';
 import { Component, OnInit, computed, effect, inject, input, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, QueryParamsHandling, RouterLink } from '@angular/router';
 import { combineLatest, map } from 'rxjs';
 import { CartService } from '../../../core/services/cart.service';
 import { InventoryItem } from '../../../core/models/product.model';
@@ -24,6 +24,7 @@ export class ProductListComponent implements OnInit {
   readonly sectionTitle = input('Featured Products');
   readonly showStockControls = input(true);
   readonly showCategoryTabs = input(false);
+  readonly useQueryParamCategory = input(false);
   readonly useContainer = input(true);
 
   private readonly inventoryService = inject(InventoryService);
@@ -36,9 +37,24 @@ export class ProductListComponent implements OnInit {
   protected readonly error$ = this.inventoryService.error$;
   protected readonly categories$ = this.inventoryService.categories$;
   protected readonly pageSizeOptions = [8, 10] as const;
-  protected readonly activeCategory$ = this.route.paramMap.pipe(
-    map((params) => params.get('category')),
+  protected readonly activeCategory$ = combineLatest([
+    this.route.paramMap,
+    this.route.queryParamMap,
+  ]).pipe(
+    map(([params, queryParams]) => {
+      const routeCategory = params.get('category');
+      const queryCategory = queryParams.get('category');
+
+      if (this.useQueryParamCategory()) {
+        return queryCategory;
+      }
+
+      return routeCategory ?? queryCategory;
+    }),
   );
+  protected readonly activeCategory = toSignal(this.activeCategory$, {
+    initialValue: null as string | null,
+  });
   protected readonly products$ = combineLatest([
     this.inventoryService.inventory$,
     this.activeCategory$,
@@ -118,12 +134,34 @@ export class ProductListComponent implements OnInit {
     return Array.from({ length: totalPages }, (_, index) => index + 1);
   }
 
-  protected categoryRoute(category?: string): readonly [string] | readonly [string, string] {
+  protected categoryRoute(
+    category?: string,
+  ): readonly [] | readonly [string] | readonly [string, string] {
+    if (this.useQueryParamCategory()) {
+      return [];
+    }
+
     if (!category) {
       return ['/products'];
     }
 
     return ['/products/category', category];
+  }
+
+  protected categoryQueryParams(category?: string): { category: string | null } | null {
+    if (!this.useQueryParamCategory()) {
+      return null;
+    }
+
+    return { category: category ?? null };
+  }
+
+  protected categoryQueryParamsHandling(): QueryParamsHandling | null {
+    if (!this.useQueryParamCategory()) {
+      return null;
+    }
+
+    return 'merge';
   }
 
   protected onAdd(payload: AddToCartPayload): void {
