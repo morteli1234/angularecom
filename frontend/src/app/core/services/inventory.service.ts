@@ -3,13 +3,15 @@ import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, catchError, finalize, map, of, tap } from 'rxjs';
 import { InventoryItem, Product } from '../models/product.model';
 import { environment } from '../../../environments/environment';
+import { CartService } from './cart.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class InventoryService {
   private readonly http = inject(HttpClient);
   private hasLoaded = false;
+  private readonly cartService = inject(CartService);
 
   private readonly inventorySubject = new BehaviorSubject<InventoryItem[]>([]);
   private readonly loadingSubject = new BehaviorSubject<boolean>(false);
@@ -17,10 +19,21 @@ export class InventoryService {
 
   readonly inventory$ = this.inventorySubject.asObservable();
   readonly categories$ = this.inventory$.pipe(
-    map((products) => [...new Set(products.map((product) => product.category))].sort())
+    map((products) => [...new Set(products.map((product) => product.category))].sort()),
   );
   readonly loading$ = this.loadingSubject.asObservable();
   readonly error$ = this.errorSubject.asObservable();
+
+  private buildCartQtyById(): Map<number, number> {
+    const cartQtyById = new Map<number, number>();
+    for (const cartItem of this.cartService.getCartItems()) {
+      cartQtyById.set(
+        cartItem.productId,
+        (cartQtyById.get(cartItem.productId) ?? 0) + cartItem.quantity,
+      );
+    }
+    return cartQtyById;
+  }
 
   loadInventory(forceReload = false): void {
     if (this.loadingSubject.value) {
@@ -34,11 +47,18 @@ export class InventoryService {
     this.loadingSubject.next(true);
     this.errorSubject.next(null);
 
+    // Basestock is 10, we use buildCartQtyById to reduce available stock based on what's currently in the cart.
+    // In a real app, the backend would handle this logic and provide the actual available stock.
+    const baseStock = 10;
+    const cartQtyById = this.buildCartQtyById();
+
     this.http
       .get<Product[]>(`${environment.apiBaseUrl}${environment.endpoints.products}`)
       .pipe(
         tap((products) => {
-          this.inventorySubject.next(products.map((product) => this.toInventoryItem(product)));
+          this.inventorySubject.next(
+            products.map((product) => this.toInventoryItem(product, baseStock, cartQtyById)),
+          );
           this.hasLoaded = true;
         }),
         catchError((error) => {
@@ -47,7 +67,7 @@ export class InventoryService {
           console.error('Failed to load products', error);
           return of([]);
         }),
-        finalize(() => this.loadingSubject.next(false))
+        finalize(() => this.loadingSubject.next(false)),
       )
       .subscribe();
   }
@@ -96,16 +116,20 @@ export class InventoryService {
     this.updateQuantity(productId, quantity);
   }
 
-  private toInventoryItem(product: Product): InventoryItem {
+  private toInventoryItem(
+    product: Product,
+    baseStock: number,
+    cartQtyById: Map<number, number>,
+  ): InventoryItem {
     return {
       ...product,
-      quantity: 10
+      quantity: baseStock - (cartQtyById.get(product.id) ?? 0),
     };
   }
 
   private updateQuantity(productId: number, quantity: number): void {
     const updatedInventory = this.inventorySubject.value.map((item) =>
-      item.id === productId ? { ...item, quantity } : item
+      item.id === productId ? { ...item, quantity } : item,
     );
 
     this.inventorySubject.next(updatedInventory);

@@ -7,17 +7,17 @@ const CART_STORAGE_KEY = 'ANGULAR_ECOM_CART_V1';
 type CartItemBase = Omit<CartItem, 'quantity'>;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CartService {
   private readonly cartItemsSubject = new BehaviorSubject<CartItem[]>([]);
 
   readonly cartItems$ = this.cartItemsSubject.asObservable();
   readonly itemCount$ = this.cartItems$.pipe(
-    map((items) => items.reduce((total, item) => total + item.quantity, 0))
+    map((items) => items.reduce((total, item) => total + item.quantity, 0)),
   );
   readonly subtotal$ = this.cartItems$.pipe(
-    map((items) => items.reduce((total, item) => total + item.price * item.quantity, 0))
+    map((items) => items.reduce((total, item) => total + item.price * item.quantity, 0)),
   );
 
   constructor() {
@@ -36,7 +36,7 @@ export class CartService {
       ? currentItems.map((cartItem) =>
           cartItem.productId === item.productId
             ? { ...cartItem, quantity: cartItem.quantity + quantity }
-            : cartItem
+            : cartItem,
         )
       : [...currentItems, { ...item, quantity }];
 
@@ -52,7 +52,7 @@ export class CartService {
       .map((item) =>
         item.productId === productId
           ? { ...item, quantity: Math.max(0, item.quantity - quantity) }
-          : item
+          : item,
       )
       .filter((item) => item.quantity > 0);
 
@@ -65,11 +65,7 @@ export class CartService {
     }
 
     const nextItems = this.cartItemsSubject.value
-      .map((item) =>
-        item.productId === productId
-          ? { ...item, quantity }
-          : item
-      )
+      .map((item) => (item.productId === productId ? { ...item, quantity } : item))
       .filter((item) => item.quantity > 0);
 
     this.commit(nextItems);
@@ -81,6 +77,10 @@ export class CartService {
 
   getCartItem(productId: number): CartItem | undefined {
     return this.cartItemsSubject.value.find((item) => item.productId === productId);
+  }
+
+  getCartItems(): CartItem[] {
+    return this.cartItemsSubject.value;
   }
 
   private commit(items: CartItem[]): void {
@@ -112,9 +112,12 @@ export class CartService {
           title: String(item.title ?? ''),
           price: Number(item.price ?? 0),
           image: String(item.image ?? ''),
-          quantity: Math.max(0, Number(item.quantity ?? 0))
+          quantity: Math.max(0, Number(item.quantity ?? 0)),
         }))
-        .filter((item) => Number.isFinite(item.productId) && Number.isFinite(item.price) && item.quantity > 0);
+        .filter(
+          (item) =>
+            Number.isFinite(item.productId) && Number.isFinite(item.price) && item.quantity > 0,
+        );
 
       this.cartItemsSubject.next(hydrated);
     } catch {
