@@ -76,6 +76,10 @@ export class InventoryService {
     return this.inventorySubject.value.find((item) => item.id === productId);
   }
 
+  getSnapshot(): InventoryItem[] {
+    return this.inventorySubject.value;
+  }
+
   decreaseStock(productId: number, amount = 1): boolean {
     if (amount <= 0) {
       return false;
