@@ -1,7 +1,9 @@
 import { CurrencyPipe, TitleCasePipe } from '@angular/common';
-import { Component, input, output } from '@angular/core';
+import { Component, inject, input, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { InventoryItem } from '../../../core/models/product.model';
+import { CartService } from '../../../core/services/cart.service';
+import { InventoryService } from '../../../core/services/inventory.service';
 
 interface AddToCartPayload {
   productId: number;
@@ -12,11 +14,14 @@ interface AddToCartPayload {
   selector: 'app-product-card',
   standalone: true,
   imports: [CurrencyPipe, TitleCasePipe, RouterLink],
-  templateUrl: './product-card.html'
+  templateUrl: './product-card.html',
 })
 export class ProductCardComponent {
   readonly item = input.required<InventoryItem>();
   readonly showStockControls = input(true);
+  protected readonly showAddToCart = signal(false);
+  private readonly inventoryService = inject(InventoryService);
+  private readonly cartService = inject(CartService);
 
   readonly add = output<AddToCartPayload>();
 
@@ -32,6 +37,37 @@ export class ProductCardComponent {
     }
 
     this.quantityToAdd = Math.max(1, Math.floor(parsedValue));
+  }
+
+  showAddToCartTrue(): void {
+    this.showAddToCart.set(true);
+  }
+
+  showAddToCartFalse(): void {
+    this.showAddToCart.set(false);
+  }
+
+  protected onAddToCart(productId: number): void {
+    const product = this.inventoryService.getItemById(productId);
+    if (!product || product.quantity <= 0) {
+      return;
+    }
+
+    const quantity = 1; // Quick add always adds 1
+    const didDecrease = this.inventoryService.decreaseStock(product.id, quantity);
+    if (!didDecrease) {
+      return;
+    }
+
+    this.cartService.addToCart(
+      {
+        productId: product.id,
+        title: product.title,
+        price: product.price,
+        image: product.image,
+      },
+      quantity,
+    );
   }
 
   protected onAdd(): void {

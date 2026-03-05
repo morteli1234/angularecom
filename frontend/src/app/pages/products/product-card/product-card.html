@@ -1,30 +1,41 @@
 <article class="flex h-full flex-col items-center font-sans">
-  <a [routerLink]="['/products', item().id]" class="block w-full">
-    <div
-      class="relative group flex h-[360px] items-center justify-center rounded-xl bg-stone-100 p-4 shadow-sm transition hover:shadow-md overflow-hidden"
-    >
+  <div
+    class="relative group h-[360px] rounded-xl bg-stone-100 p-4 shadow-sm transition hover:shadow-md overflow-hidden"
+    (mouseleave)="showAddToCartFalse()"
+  >
+    <a [routerLink]="['/products', item().id]" class="block w-full">
       <img [src]="item().image" [alt]="item().title" class="max-h-full w-auto object-contain" />
-
-      <!-- Buttons -->
-      <div class="absolute flex inset-x-0 bottom-4 justify-center gap-4">
-        <button
-          class="flex items-center justify-center w-8 h-8 rounded-full bg-stone-900 text-white text-xs font-semibold transition hover:bg-stone-700 opacity-0 group-hover:opacity-100 transition duration-300"
+    </a>
+    <!-- Buttons -->
+    <div class="absolute flex inset-x-0 bottom-4 justify-center gap-4">
+      <button
+        class="flex items-center justify-center w-8 h-8 rounded-full bg-stone-900 text-white text-xs font-semibold hover:bg-stone-700 opacity-0 group-hover:opacity-100 transition duration-300 cursor-pointer"
+      >
+        A
+      </button>
+      <button
+        class="flex items-center justify-center w-8 h-8 rounded-full bg-stone-900 text-white text-xs font-semibold hover:bg-stone-700 opacity-0 group-hover:opacity-100 transition duration-300 group-hover:delay-150 cursor-pointer"
+      >
+        B
+      </button>
+      <button
+        type="button"
+        (click)="showAddToCartTrue()"
+        [disabled]="item().quantity === 0"
+        class="flex items-center justify-center w-8 h-8 rounded-full bg-stone-900 text-white text-xs font-semibold hover:bg-stone-700 opacity-0 group-hover:opacity-100 transition duration-300 group-hover:delay-300 cursor-pointer"
+      >
+        C
+      </button>
+      @if (showAddToCart()) {
+        <div
+          class="absolute bottom-full mb-2 w-32 rounded-md bg-white border border-stone-200 shadow-lg p-2 text-center text-sm text-stone-700 opacity-0 group-hover:opacity-100 transition duration-300 hover:bg-stone-700 hover:text-white cursor-pointer active:scale-95"
+          (click)="onAddToCart(item().id)"
         >
-          A
-        </button>
-        <button
-          class="flex items-center justify-center w-8 h-8 rounded-full bg-stone-900 text-white text-xs font-semibold transition hover:bg-stone-700 opacity-0 group-hover:opacity-100 transition duration-300 group-hover:delay-150"
-        >
-          B
-        </button>
-        <button
-          class="flex items-center justify-center w-8 h-8 rounded-full bg-stone-900 text-white text-xs font-semibold transition hover:bg-stone-700 opacity-0 group-hover:opacity-100 transition duration-300 group-hover:delay-300"
-        >
-          C
-        </button>
-      </div>
+          Quick add!
+        </div>
+      }
     </div>
-  </a>
+  </div>
 
   <div class="flex flex-1 flex-col items-center gap-2 px-2 pt-4 text-center">
     <a [routerLink]="['/products', item().id]" class="block">
