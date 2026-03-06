@@ -11,18 +11,13 @@
         <h1 class="text-2xl font-semibold tracking-tight text-stone-900">{{ sectionTitle() }}</h1>
         @if (activeCategory(); as activeCategory) {
           @if (activeCategory) {
-          <p class="text-sm text-stone-600">
-            Filtering by:
-            <span class="font-semibold text-stone-900">{{ activeCategory | titlecase }}</span>
-          </p>
+            <p class="text-sm text-stone-600">
+              Filtering by:
+              <span class="font-semibold text-stone-900">{{ activeCategory | titlecase }}</span>
+            </p>
           }
         }
       </div>
-      <a
-        routerLink="/products"
-        class="text-sm font-medium text-stone-900 transition hover:text-stone-600"
-        >Browse all</a
-      >
     </div>
   }
 

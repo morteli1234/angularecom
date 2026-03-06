@@ -1,37 +1,50 @@
 @if (categories$() | async; as categories) {
   <section [class]="'grid gap-2 bg-neutral-50 ' + categoryGridClasses(categories.length)">
     @for (category of categories; track category.key; let i = $index) {
-      <a
-        [routerLink]="category.route"
+      <div
         [class]="
-          'group relative flex flex-col justify-end overflow-hidden p-6 text-neutral-900 border border-neutral-200 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md '
-          + categoryToneClasses(i)
-          + ' '
-          + categoryCardClasses(i, categories.length)
+          'group relative flex flex-col justify-end overflow-hidden p-6 text-neutral-900 border border-neutral-200 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ' +
+          categoryToneClasses(i) +
+          ' ' +
+          categoryCardClasses(i, categories.length)
         "
       >
         @if (category.image) {
-          <div [class]="'absolute inset-y-0 right-0 ' + categoryImageFrameClasses(i, categories.length)">
+          <div
+            [class]="
+              'absolute inset-y-0 right-0 ' + categoryImageFrameClasses(i, categories.length)
+            "
+          >
             <img
               [src]="category.image"
               [alt]="category.name"
               class="h-full w-full object-contain object-right-bottom transition-transform duration-500 group-hover:scale-105"
             />
           </div>
-          <div class="absolute inset-0 bg-gradient-to-r from-white/90 via-white/55 to-transparent"></div>
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-white/90 via-white/55 to-transparent"
+          ></div>
         }
 
-        <p class="relative text-xs font-semibold tracking-wide uppercase text-neutral-500">Category</p>
+        <p class="relative text-xs font-semibold tracking-wide uppercase text-neutral-500">
+          Category
+        </p>
         <h2
           [class]="
-            'relative text-neutral-900 ' + (i === 0 ? 'mt-2 text-5xl font-semibold' : 'mt-2 text-4xl font-semibold')
+            'relative text-neutral-900 ' +
+            (i === 0 ? 'mt-2 text-5xl font-semibold' : 'mt-2 text-4xl font-semibold')
           "
         >
           {{ category.name }}
         </h2>
         <p class="relative mt-2 max-w-md text-sm text-neutral-700">{{ category.description }}</p>
-        <p class="relative mt-4 w-fit border-b border-black text-sm font-medium uppercase text-neutral-900">Shop now</p>
-      </a>
+        <a
+          [routerLink]="category.route"
+          class="relative mt-4 w-fit border-b border-black text-sm font-medium uppercase text-neutral-900"
+        >
+          Shop now
+        </a>
+      </div>
     }
   </section>
 } @else {
