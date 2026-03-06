@@ -1,34 +1,22 @@
-<section class="relative left-1/2 right-1/2 w-screen font-sans text-stone-900 bg-stone-200 -translate-x-1/2">
-  <div class="mx-auto flex flex-col items-center gap-6 px-4 py-12 w-full max-w-7xl text-center md:gap-8 md:px-6 lg:px-8">
+<section
+  class="relative left-1/2 right-1/2 w-screen font-sans text-stone-900 bg-stone-200 -translate-x-1/2"
+>
+  <div
+    class="mx-auto flex flex-col items-center gap-6 px-4 py-12 w-full max-w-7xl text-center md:gap-8 md:px-6 lg:px-8"
+  >
     <header class="flex flex-col items-center gap-4">
-      <p class="text-sm font-medium tracking-wide text-stone-600 animate-spotlight-top">Spotlight</p>
+      <p class="text-sm font-medium tracking-wide text-stone-600 animate-spotlight-top">
+        Spotlight
+      </p>
       <h2
         class="max-w-2xl text-3xl font-semibold tracking-tight text-stone-900 animate-spotlight-middle md:text-4xl"
       >
         {{ activeSlide.title }}
       </h2>
-      <p class="max-w-xl text-sm text-stone-600 animate-spotlight-bottom">{{ activeSlide.subtitle }}</p>
+      <p class="max-w-xl text-sm text-stone-600 animate-spotlight-bottom">
+        {{ activeSlide.subtitle }}
+      </p>
     </header>
-
-    <div class="flex items-center justify-center gap-4">
-      <button
-        type="button"
-        (click)="prevSlide()"
-        [class]="navButtonClass"
-        aria-label="Previous spotlight slide"
-      >
-        ‹
-      </button>
-      <a routerLink="/products" [class]="ctaLinkClass">View collection</a>
-      <button
-        type="button"
-        (click)="nextSlide()"
-        [class]="navButtonClass"
-        aria-label="Next spotlight slide"
-      >
-        ›
-      </button>
-    </div>
 
     <div class="flex items-center justify-center gap-2">
       @for (slide of carouselSlides; track slide.title; let i = $index) {

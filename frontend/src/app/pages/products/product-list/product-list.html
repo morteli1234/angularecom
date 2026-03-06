@@ -89,63 +89,64 @@
             ></app-product-card>
           }
         </div>
+        @if (showCategoryTabs() == false) {
+          <div
+            class="mt-6 flex flex-col items-start justify-between gap-3 border-t border-stone-200 pt-4 md:flex-row md:items-center"
+          >
+            <p class="text-sm text-stone-600">
+              Showing {{ pagination.startItem }}-{{ pagination.endItem }} of
+              {{ pagination.totalItems }}
+            </p>
 
-        <div
-          class="mt-6 flex flex-col items-start justify-between gap-3 border-t border-stone-200 pt-4 md:flex-row md:items-center"
-        >
-          <p class="text-sm text-stone-600">
-            Showing {{ pagination.startItem }}-{{ pagination.endItem }} of
-            {{ pagination.totalItems }}
-          </p>
+            <div class="flex flex-wrap items-center gap-2">
+              <label for="page-size" class="text-sm text-stone-600">Per page</label>
+              <select
+                id="page-size"
+                [value]="pagination.pageSize"
+                (change)="onPageSizeChange($event)"
+                class="rounded-lg border border-stone-200 bg-stone-50 px-2 py-1 text-sm text-stone-700"
+              >
+                @for (size of pageSizeOptions; track size) {
+                  <option [value]="size">{{ size }}</option>
+                }
+              </select>
 
-          <div class="flex flex-wrap items-center gap-2">
-            <label for="page-size" class="text-sm text-stone-600">Per page</label>
-            <select
-              id="page-size"
-              [value]="pagination.pageSize"
-              (change)="onPageSizeChange($event)"
-              class="rounded-lg border border-stone-200 bg-stone-50 px-2 py-1 text-sm text-stone-700"
-            >
-              @for (size of pageSizeOptions; track size) {
-                <option [value]="size">{{ size }}</option>
-              }
-            </select>
-
-            <button
-              type="button"
-              (click)="goToPreviousPage(pagination.currentPage)"
-              [disabled]="pagination.currentPage === 1"
-              class="rounded-lg border border-stone-200 bg-stone-50 px-2 py-1 text-sm text-stone-700 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              Prev
-            </button>
-
-            @for (page of pageNumbers(pagination.totalPages); track page) {
               <button
                 type="button"
-                (click)="goToPage(page)"
-                class="rounded-lg border px-2 py-1 text-sm"
-                [class.border-stone-900]="page === pagination.currentPage"
-                [class.bg-stone-900]="page === pagination.currentPage"
-                [class.text-white]="page === pagination.currentPage"
-                [class.border-stone-200]="page !== pagination.currentPage"
-                [class.bg-stone-50]="page !== pagination.currentPage"
-                [class.text-stone-700]="page !== pagination.currentPage"
+                (click)="goToPreviousPage(pagination.currentPage)"
+                [disabled]="pagination.currentPage === 1"
+                class="rounded-lg border border-stone-200 bg-stone-50 px-2 py-1 text-sm text-stone-700 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {{ page }}
+                Prev
               </button>
-            }
 
-            <button
-              type="button"
-              (click)="goToNextPage(pagination.currentPage, pagination.totalPages)"
-              [disabled]="pagination.currentPage === pagination.totalPages"
-              class="rounded-lg border border-stone-200 bg-stone-50 px-2 py-1 text-sm text-stone-700 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              Next
-            </button>
+              @for (page of pageNumbers(pagination.totalPages); track page) {
+                <button
+                  type="button"
+                  (click)="goToPage(page)"
+                  class="rounded-lg border px-2 py-1 text-sm"
+                  [class.border-stone-900]="page === pagination.currentPage"
+                  [class.bg-stone-900]="page === pagination.currentPage"
+                  [class.text-white]="page === pagination.currentPage"
+                  [class.border-stone-200]="page !== pagination.currentPage"
+                  [class.bg-stone-50]="page !== pagination.currentPage"
+                  [class.text-stone-700]="page !== pagination.currentPage"
+                >
+                  {{ page }}
+                </button>
+              }
+
+              <button
+                type="button"
+                (click)="goToNextPage(pagination.currentPage, pagination.totalPages)"
+                [disabled]="pagination.currentPage === pagination.totalPages"
+                class="rounded-lg border border-stone-200 bg-stone-50 px-2 py-1 text-sm text-stone-700 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Next
+              </button>
+            </div>
           </div>
-        </div>
+        }
       }
     }
   }
