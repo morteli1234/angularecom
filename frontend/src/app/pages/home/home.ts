@@ -10,6 +10,8 @@ import { HomeSpotlightSectionComponent } from './components/home-spotlight-secti
 import { HomeTrendColumnsSectionComponent } from './components/home-trend-columns-section/home-trend-columns-section';
 import { ProductListComponent } from '../products/product-list/product-list';
 import { HomeInstagallerySectionComponent } from './components/home-instagallery-section/home-instagallery-section';
+import { HomeOfferSectionComponent } from './components/home-offer-section/home-offer-section';
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -19,6 +21,7 @@ import { HomeInstagallerySectionComponent } from './components/home-instagallery
     HomeSpotlightSectionComponent,
     HomeTrendColumnsSectionComponent,
     HomeInstagallerySectionComponent,
+    HomeOfferSectionComponent,
   ],
   templateUrl: './home.html',
 })
