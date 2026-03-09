@@ -1,0 +1,81 @@
+@if (open()) {
+  <div class="fixed inset-0 z-50 bg-slate-900/45" (click)="onBackdropClick($event)">
+    <aside
+      class="ml-auto flex h-full w-full max-w-md flex-col border-l border-slate-200 bg-white shadow-[-10px_0_30px_rgba(15,23,42,0.18)]"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Shopping cart"
+    >
+      <header class="flex items-center justify-between border-b border-slate-200 p-4">
+        <button
+          type="button"
+          class="cursor-pointer border-0 bg-transparent text-[1.75rem] leading-none text-slate-600"
+          (click)="onClose()"
+          aria-label="Close categories"
+        >
+          ×
+        </button>
+      </header>
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-row gap-4">
+          <button
+            type="button"
+            (click)="onFavoritesClick()"
+            class="flex items-center gap-2 rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
+          >
+            <mat-icon>favorite</mat-icon>
+          </button>
+          <button
+            type="button"
+            (click)="onCartClick()"
+            class="flex items-center gap-2 rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
+          >
+            <mat-icon>shopping_cart</mat-icon>
+
+            <span>Cart</span>
+            <span
+              class="inline-flex min-w-5 items-center justify-center rounded-full bg-slate-900 px-1.5 py-0.5 text-xs font-semibold leading-none text-white"
+            >
+              {{ (itemCount$ | async) ?? 0 }}
+            </span>
+          </button>
+        </div>
+        <div class="flex flex-col overflow-auto p-4">
+          @if (categories$() | async; as categories) {
+            <div class="flex items-center gap-8">
+              <a
+                routerLink="/"
+                class="capitalize transition hover:text-blue-600 hover:underline hover: underline-offset-5 hover:decoration-red-500 hover: decoration-2 4 border-b-1 border-black-600 pl-1"
+                routerLinkActive="text-blue-600 underline underline-offset-4 decoration-red-500 decoration-2 4 "
+                [routerLinkActiveOptions]="{
+                  paths: 'exact',
+                  queryParams: 'exact',
+                  matrixParams: 'ignored',
+                  fragment: 'ignored',
+                }"
+              >
+                Home
+              </a>
+            </div>
+            @for (category of categories; track category) {
+              <a
+                [routerLink]="['/products']"
+                [queryParams]="{ category: category }"
+                routerLinkActive="text-blue-600 underline underline-offset-4 decoration-red-500 decoration-2 4 "
+                [routerLinkActiveOptions]="{
+                  paths: 'exact',
+                  queryParams: 'exact',
+                  matrixParams: 'ignored',
+                  fragment: 'ignored',
+                }"
+                class="capitalize transition hover:text-blue-600 hover:underline hover:underline-offset-5 hover:decoration-red-500 hover:decoration-2 4 border-b-1 border-black-600 pl-1"
+              >
+                {{ category }}
+              </a>
+            }
+          }
+        </div>
+      </div>
+    </aside>
+  </div>
+}

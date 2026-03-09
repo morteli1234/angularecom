@@ -3,7 +3,7 @@
     [categories$]="navCategories$"
     class="sticky top-0 z-50 block"
     (cartClick)="openCart()"
-    (navCategoryClick)="openNav()"
+    (navbarClick)="openNav()"
     (favoritesClick)="openFavorites()"
   ></app-navbar>
   <main class="flex-1">
@@ -15,3 +15,9 @@
 <app-cart-drawer [open]="isCartOpen()" (close)="closeCart()"></app-cart-drawer>
 
 <app-favorites-drawer [open]="isFavoritesOpen()" (close)="closeFavorites()"></app-favorites-drawer>
+
+<app-navbar-drawer
+  [categories$]="navCategories$"
+  [open]="isNavOpen()"
+  (close)="closeNav()"
+></app-navbar-drawer>

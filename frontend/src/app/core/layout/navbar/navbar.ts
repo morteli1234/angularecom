@@ -6,16 +6,26 @@ import { MatIconModule } from '@angular/material/icon';
 import { Observable } from 'rxjs/internal/Observable';
 import { InventoryService } from '../../services/inventory.service';
 import { Product } from '../../models/product.model';
+import { CartButtonComponent } from './navbuttons/cart-button/cart-button';
+import { FavoriteButtonComponent } from './navbuttons/favorite-button/favorite-button';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, AsyncPipe, MatIconModule],
+  imports: [
+    RouterLink,
+    RouterLinkActive,
+    AsyncPipe,
+    MatIconModule,
+    CartButtonComponent,
+    FavoriteButtonComponent,
+  ],
   templateUrl: './navbar.html',
 })
 export class NavbarComponent {
   readonly cartClick = output<void>();
   readonly favoritesClick = output<void>();
+  readonly navbarClick = output<void>();
 
   readonly open = input(false);
   readonly close = output<void>();
@@ -35,6 +45,9 @@ export class NavbarComponent {
     this.favoritesClick.emit();
   }
 
+  protected onNavbarClick(): void {
+    this.navbarClick.emit();
+  }
   protected readonly filteredProducts = signal<Product[]>([]);
 
   protected searchProducts(query: string): void {

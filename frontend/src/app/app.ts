@@ -5,6 +5,7 @@ import { FooterComponent } from './core/layout/footer/footer';
 import { NavbarComponent } from './core/layout/navbar/navbar';
 import { InventoryService } from './core/services/inventory.service';
 import { FavoritesDrawerComponent } from './core/layout/favorites-drawer/favorites-drawer';
+import { NavbarDrawerComponent } from './core/layout/navbar-drawer/navbar-drawer';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ import { FavoritesDrawerComponent } from './core/layout/favorites-drawer/favorit
     FooterComponent,
     CartDrawerComponent,
     FavoritesDrawerComponent,
+    NavbarDrawerComponent,
   ],
   templateUrl: './app.html',
 })
@@ -23,6 +25,8 @@ export class App {
   protected readonly isCartOpen = signal(false);
 
   protected readonly isFavoritesOpen = signal(false);
+
+  protected readonly isNavOpen = signal(false);
 
   protected openFavorites(): void {
     this.isFavoritesOpen.set(true);
@@ -41,8 +45,6 @@ export class App {
   }
 
   protected readonly navCategories$ = this.inventoryService.categories$;
-
-  protected readonly isNavOpen = signal(false);
 
   protected openNav(): void {
     this.isNavOpen.set(true);
