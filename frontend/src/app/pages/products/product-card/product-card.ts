@@ -4,6 +4,8 @@ import { RouterLink } from '@angular/router';
 import { InventoryItem } from '../../../core/models/product.model';
 import { CartService } from '../../../core/services/cart.service';
 import { InventoryService } from '../../../core/services/inventory.service';
+import { FavoritesService } from '../../../core/services/favorites.service';
+import { MatIcon } from '@angular/material/icon';
 
 interface AddToCartPayload {
   productId: number;
@@ -13,7 +15,7 @@ interface AddToCartPayload {
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [CurrencyPipe, TitleCasePipe, RouterLink],
+  imports: [MatIcon, CurrencyPipe, TitleCasePipe, RouterLink],
   templateUrl: './product-card.html',
 })
 export class ProductCardComponent {
@@ -22,7 +24,7 @@ export class ProductCardComponent {
   protected readonly showAddToCart = signal(false);
   private readonly inventoryService = inject(InventoryService);
   private readonly cartService = inject(CartService);
-
+  private readonly favoritesService = inject(FavoritesService);
   readonly add = output<AddToCartPayload>();
 
   protected quantityToAdd = 1;
@@ -45,6 +47,16 @@ export class ProductCardComponent {
 
   showAddToCartFalse(): void {
     this.showAddToCart.set(false);
+  }
+
+  protected addToFavorites(): void {
+    const product = this.item();
+    this.favoritesService.addToFavorites({
+      productId: product.id,
+      title: product.title,
+      price: product.price,
+      image: product.image,
+    });
   }
 
   protected onAddToCart(productId: number): void {

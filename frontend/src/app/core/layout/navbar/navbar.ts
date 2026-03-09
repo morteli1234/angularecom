@@ -15,6 +15,10 @@ import { Product } from '../../models/product.model';
 })
 export class NavbarComponent {
   readonly cartClick = output<void>();
+  readonly favoritesClick = output<void>();
+
+  readonly open = input(false);
+  readonly close = output<void>();
 
   private readonly inventoryService = inject(InventoryService);
   private readonly cartService = inject(CartService);
@@ -25,6 +29,10 @@ export class NavbarComponent {
 
   protected onCartClick(): void {
     this.cartClick.emit();
+  }
+
+  protected onFavoritesClick(): void {
+    this.favoritesClick.emit();
   }
 
   protected readonly filteredProducts = signal<Product[]>([]);
