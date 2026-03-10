@@ -1,7 +1,7 @@
 import { AsyncPipe, TitleCasePipe } from '@angular/common';
 import { Component, OnInit, computed, effect, inject, input, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, QueryParamsHandling, RouterLink } from '@angular/router';
+import { ActivatedRoute, QueryParamsHandling, RouterLink, RouterLinkActive } from '@angular/router';
 import { combineLatest, map } from 'rxjs';
 import { CartService } from '../../../core/services/cart.service';
 import { InventoryItem } from '../../../core/models/product.model';
@@ -16,7 +16,7 @@ interface AddToCartPayload {
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [RouterLink, AsyncPipe, TitleCasePipe, ProductCardComponent],
+  imports: [RouterLink, AsyncPipe, TitleCasePipe, ProductCardComponent, RouterLinkActive],
   templateUrl: './product-list.html',
 })
 export class ProductListComponent implements OnInit {

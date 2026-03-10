@@ -5,47 +5,67 @@
       : 'w-full space-y-6 font-sans'
   "
 >
-  @if (showTitle()) {
-    <div class="flex items-end justify-between gap-4">
-      <div class="space-y-1">
-        <h1 class="text-2xl font-semibold tracking-tight text-stone-900">{{ sectionTitle() }}</h1>
-        @if (activeCategory(); as activeCategory) {
-          @if (activeCategory) {
-            <p class="text-sm text-stone-600">
-              Filtering by:
-              <span class="font-semibold text-stone-900">{{ activeCategory | titlecase }}</span>
-            </p>
+  @if (showTitle() || showCategoryTabs()) {
+    <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+      @if (showTitle()) {
+        <div class="space-y-1">
+          <h1 class="text-2xl font-semibold tracking-tight text-stone-900">
+            {{ sectionTitle() }}
+          </h1>
+          @if (activeCategory(); as activeCategory) {
+            @if (activeCategory) {
+              <p class="text-sm text-stone-600">
+                Filtering by:
+                <span class="font-semibold text-stone-900">{{ activeCategory | titlecase }}</span>
+              </p>
+            }
           }
-        }
-      </div>
-    </div>
-  }
+        </div>
+      }
 
-  @if (showCategoryTabs()) {
-    <div class="flex flex-wrap items-center gap-6 text-base text-stone-600">
-      <a
-        [routerLink]="categoryRoute()"
-        [queryParams]="categoryQueryParams()"
-        [queryParamsHandling]="categoryQueryParamsHandling()"
-        class="border-b border-transparent pb-1 transition hover:text-stone-900"
-        [class.border-stone-900]="!activeCategory()"
-        [class.text-stone-900]="!activeCategory()"
-      >
-        All
-      </a>
-      @if (categories$ | async; as categories) {
-        @for (category of categories; track category) {
+      @if (showCategoryTabs()) {
+        <div class="flex flex-wrap items-center gap-6 text-base text-stone-600">
           <a
-            [routerLink]="categoryRoute(category)"
-            [queryParams]="categoryQueryParams(category)"
+            [routerLink]="categoryRoute()"
+            [queryParams]="categoryQueryParams()"
             [queryParamsHandling]="categoryQueryParamsHandling()"
+            routerLinkActive="text-blue-600 underline underline-offset-4 decoration-red-500 decoration-2 4"
+            [routerLinkActiveOptions]="{
+              paths: 'exact',
+              queryParams: 'exact',
+              matrixParams: 'ignored',
+              fragment: 'ignored',
+            }"
             class="border-b border-transparent pb-1 transition hover:text-stone-900"
-            [class.border-stone-900]="activeCategory()?.toLowerCase() === category.toLowerCase()"
-            [class.text-stone-900]="activeCategory()?.toLowerCase() === category.toLowerCase()"
+            [class.border-stone-900]="!activeCategory()"
+            [class.text-stone-900]="!activeCategory()"
           >
-            {{ category | titlecase }}
+            All
           </a>
-        }
+          @if (categories$ | async; as categories) {
+            @for (category of categories; track category) {
+              <a
+                [routerLink]="categoryRoute(category)"
+                [queryParams]="categoryQueryParams(category)"
+                [queryParamsHandling]="categoryQueryParamsHandling()"
+                routerLinkActive="text-blue-600 underline underline-offset-4 decoration-red-500 decoration-2 4"
+                [routerLinkActiveOptions]="{
+                  paths: 'exact',
+                  queryParams: 'exact',
+                  matrixParams: 'ignored',
+                  fragment: 'ignored',
+                }"
+                class="border-b border-transparent pb-1 transition hover:text-stone-900"
+                [class.border-stone-900]="
+                  activeCategory()?.toLowerCase() === category.toLowerCase()
+                "
+                [class.text-stone-900]="activeCategory()?.toLowerCase() === category.toLowerCase()"
+              >
+                {{ category | titlecase }}
+              </a>
+            }
+          }
+        </div>
       }
     </div>
   }
