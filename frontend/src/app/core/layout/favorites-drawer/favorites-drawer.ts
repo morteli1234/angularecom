@@ -3,6 +3,8 @@ import { Component, input, output, inject } from '@angular/core';
 import { FavoriteItem } from '../../../core/models/favorite-item.model';
 import { FavoritesService } from '../../../core/services/favorites.service';
 import { InventoryService } from '../../../core/services/inventory.service';
+import { CartService } from '../../services/cart.service';
+import { CartItem } from '../../models/cart-item.model';
 
 @Component({
   selector: 'app-favorites-drawer',
@@ -16,6 +18,7 @@ export class FavoritesDrawerComponent {
 
   private readonly favoritesService = inject(FavoritesService);
   private readonly inventoryService = inject(InventoryService);
+  private readonly cartService = inject(CartService);
 
   protected readonly favoriteItems$ = this.favoritesService.favorites$;
 
@@ -34,5 +37,21 @@ export class FavoritesDrawerComponent {
   }
   protected onRemove(item: FavoriteItem): void {
     this.favoritesService.removeFromFavorites(item.productId);
+  }
+
+  protected onAddToCart(item: FavoriteItem): void {
+    const inventoryItem = this.inventoryService.getItemById(item.productId);
+    if (!inventoryItem || inventoryItem.quantity <= 0) {
+      return;
+    }
+  }
+  protected favoriteToCartItem(f: FavoriteItem): CartItem {
+    return {
+      productId: f.id,
+      title: f.title,
+      price: f.price,
+      image: f.image,
+      quantity: 1,
+    };
   }
 }

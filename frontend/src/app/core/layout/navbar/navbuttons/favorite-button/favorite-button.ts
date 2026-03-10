@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/internal/Observable';
 @Component({
   selector: 'favorite-button',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, AsyncPipe, MatIconModule],
+  imports: [MatIconModule],
   templateUrl: './favorite-button.html',
 })
 export class FavoriteButtonComponent {

@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/internal/Observable';
 @Component({
   selector: 'cart-button',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, AsyncPipe, MatIconModule],
+  imports: [AsyncPipe, MatIconModule],
   templateUrl: './cart-button.html',
 })
 export class CartButtonComponent {
