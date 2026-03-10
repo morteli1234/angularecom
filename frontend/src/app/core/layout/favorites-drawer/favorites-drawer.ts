@@ -45,13 +45,4 @@ export class FavoritesDrawerComponent {
       return;
     }
   }
-  protected favoriteToCartItem(f: FavoriteItem): CartItem {
-    return {
-      productId: f.id,
-      title: f.title,
-      price: f.price,
-      image: f.image,
-      quantity: 1,
-    };
-  }
 }
