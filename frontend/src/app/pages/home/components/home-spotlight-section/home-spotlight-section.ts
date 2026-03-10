@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
+import Swiper from 'swiper';
+
 interface SpotlightSlide {
   title: string;
   subtitle: string;
@@ -19,7 +21,8 @@ export class HomeSpotlightSectionComponent {
   protected readonly ctaLinkClass =
     'inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-stone-900 bg-amber-500 rounded-lg border border-amber-400 shadow-sm transition-colors hover:bg-amber-400';
   private readonly activeDotClass = 'h-2.5 w-2.5 rounded-full bg-amber-500 transition-colors';
-  private readonly inactiveDotClass = 'h-2.5 w-2.5 rounded-full bg-stone-400 transition-colors hover:bg-stone-500';
+  private readonly inactiveDotClass =
+    'h-2.5 w-2.5 rounded-full bg-stone-400 transition-colors hover:bg-stone-500';
 
   protected readonly carouselSlides: SpotlightSlide[] = [
     { title: 'Spring Collection', subtitle: 'Soft layers and fresh colors' },

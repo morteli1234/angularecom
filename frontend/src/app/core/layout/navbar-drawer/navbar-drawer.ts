@@ -34,6 +34,7 @@ export class NavbarDrawerComponent {
   private readonly cartService = inject(CartService);
 
   protected readonly itemCount$ = this.cartService.itemCount$;
+
   protected onCartClick(): void {
     this.cartClick.emit();
   }

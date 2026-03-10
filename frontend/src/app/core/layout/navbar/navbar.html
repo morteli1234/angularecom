@@ -10,7 +10,7 @@
     </div>
 
     <div>
-      <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-700">
+      <nav class="hidden xl:flex items-center gap-6 text-sm font-medium text-slate-700">
         @if (categories$() | async; as categories) {
           <div class="flex items-center gap-8">
             <a
@@ -78,15 +78,15 @@
       <favorite-button (favoritesClick)="onFavoritesClick()"></favorite-button>
       <cart-button (cartClick)="onCartClick()"></cart-button>
 
+      <button class="hidden md:block">Login</button>
+      <button class="hidden md:block">Register</button>
       <button
         type="button"
-        class="md:hidden border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
+        class="xl:hidden border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
         (click)="onNavbarClick()"
       >
         ☰
       </button>
-      <button class="hidden md:block">Login</button>
-      <button class="hidden md:block">Register</button>
     </div>
   </div>
   <div class="hidden"></div>

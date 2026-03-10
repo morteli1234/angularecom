@@ -26,8 +26,8 @@
             <a
               (click)="onClose()"
               routerLink="/"
-              class="capitalize transition hover:text-blue-600 hover:underline hover: underline-offset-5 hover:decoration-red-500 hover: decoration-2 4 border-b-1 border-black-600 pl-1"
-              routerLinkActive="text-blue-600 underline underline-offset-4 decoration-red-500 decoration-2 4 "
+              class="capitalize transition hover:decoration-red-500 hover: decoration-2 4 border-b border-slate-200 pl-1 pb-2"
+              routerLinkActive="text-blue-600"
               [routerLinkActiveOptions]="{
                 paths: 'exact',
                 queryParams: 'exact',
@@ -43,14 +43,14 @@
                 (click)="onClose()"
                 [routerLink]="['/products']"
                 [queryParams]="{ category: category }"
-                routerLinkActive="text-blue-600 underline underline-offset-4 decoration-red-500 decoration-2 4 "
+                routerLinkActive="text-blue-600  "
                 [routerLinkActiveOptions]="{
                   paths: 'exact',
                   queryParams: 'exact',
                   matrixParams: 'ignored',
                   fragment: 'ignored',
                 }"
-                class="capitalize transition hover:text-blue-600 hover:underline hover:underline-offset-5 hover:decoration-red-500 hover:decoration-2 4 border-b-1 border-black-600 pl-1"
+                class="capitalize transition hover:decoration-red-500 hover:decoration-2 4 border-b-1 border-slate-200 pl-1 pb-2"
               >
                 <div class="text-xl">{{ category }}</div>
               </a>

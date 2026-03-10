@@ -29,6 +29,14 @@ export class ProductCardComponent {
 
   protected quantityToAdd = 1;
 
+  protected isFavorite(productId: number): boolean {
+    let isFav = false;
+    this.favoritesService.favorites$.subscribe((favorites) => {
+      isFav = favorites.some((fav) => fav.productId === productId);
+    });
+    return isFav;
+  }
+
   protected onQuantityInput(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     const parsedValue = Number(inputElement.value);
@@ -39,6 +47,10 @@ export class ProductCardComponent {
     }
 
     this.quantityToAdd = Math.max(1, Math.floor(parsedValue));
+  }
+
+  protected removeFromFavorites(): void {
+    this.favoritesService.removeFromFavorites(this.item().id);
   }
 
   showAddToCartTrue(): void {

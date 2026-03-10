@@ -16,13 +16,25 @@
           <mat-icon>visibility</mat-icon>
         </button>
       </a>
-      <button
-        type="button"
-        (click)="addToFavorites()"
-        class="flex items-center justify-center w-8 h-8 rounded-full bg-stone-900 text-white text-xs font-semibold hover:bg-stone-700 opacity-0 group-hover:opacity-100 transition duration-300 group-hover:delay-150 cursor-pointer"
-      >
-        <mat-icon>favorite</mat-icon>
-      </button>
+
+      @if (!isFavorite(item().id)) {
+        <button
+          type="button"
+          (click)="addToFavorites()"
+          class="flex items-center justify-center w-8 h-8 rounded-full bg-stone-900 text-white text-xs font-semibold hover:bg-stone-700 opacity-0 group-hover:opacity-100 transition duration-300 group-hover:delay-150 cursor-pointer"
+        >
+          <mat-icon [style.color]="isFavorite(item().id) ? 'red' : 'white'"> favorite </mat-icon>
+        </button>
+      } @else {
+        <button
+          type="button"
+          (click)="removeFromFavorites()"
+          class="flex items-center justify-center w-8 h-8 rounded-full bg-stone-900 text-white text-xs font-semibold hover:bg-stone-700 opacity-0 group-hover:opacity-100 transition duration-300 group-hover:delay-150 cursor-pointer"
+        >
+          <mat-icon [style.color]="isFavorite(item().id) ? 'red' : 'white'"> favorite </mat-icon>
+        </button>
+      }
+
       <button
         type="button"
         (click)="showAddToCartTrue()"
