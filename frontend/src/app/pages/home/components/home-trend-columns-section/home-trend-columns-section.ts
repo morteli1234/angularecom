@@ -6,24 +6,9 @@ import { Component } from '@angular/core';
   templateUrl: './home-trend-columns-section.html',
 })
 export class HomeTrendColumnsSectionComponent {
-  protected readonly hotTrend = [
-    'Oversized shirts',
-    'Retro sneakers',
-    'Statement totes',
-    'Cargo silhouettes',
-  ];
+  protected readonly hotTrend = ['Oversized shirts', 'Retro sneakers', 'Statement totes'];
 
-  protected readonly bestSeller = [
-    'Core tee pack',
-    'Slim chino',
-    'Urban runner',
-    'Weatherproof jacket',
-  ];
+  protected readonly bestSeller = ['Core tee pack', 'Slim chino', 'Urban runner'];
 
-  protected readonly featured = [
-    'Premium knit drop',
-    'Limited colorway cap',
-    'Travel-ready set',
-    'Minimal leather belt',
-  ];
+  protected readonly feature = ['Premium knit drop', 'Limited colorway cap', 'Travel-ready set'];
 }
