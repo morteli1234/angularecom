@@ -1,8 +1,5 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { register } from 'swiper/element/bundle';
-
-register();
 
 interface SpotlightSlide {
   title: string;
@@ -27,5 +24,27 @@ export class HomeSpotlightSectionComponent {
 
   protected get activeSlide(): SpotlightSlide {
     return this.carouselSlides[this.activeSlideIndex];
+  }
+  @ViewChild('spotlightSwiper', { static: true })
+  private spotlightSwiper?: ElementRef;
+
+  ngAfterViewInit(): void {
+    const swiperEl = this.spotlightSwiper?.nativeElement as any;
+    if (!swiperEl) return;
+
+    Object.assign(swiperEl, {
+      slidesPerView: 1,
+      spaceBetween: 0,
+      loop: true,
+      autoplay: {
+        delay: 8000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        clickable: true,
+      },
+    });
+
+    swiperEl.initialize();
   }
 }
