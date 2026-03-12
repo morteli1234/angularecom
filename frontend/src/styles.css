@@ -6,9 +6,9 @@
 @import 'swiper/css/autoplay';
 
 @theme {
-  --animate-spotlight-top: spotlight-top 5s ease-in-out infinite;
-  --animate-spotlight-middle: spotlight-middle 5s ease-in-out infinite;
-  --animate-spotlight-bottom: spotlight-bottom 5s ease-in-out infinite;
+  --animate-spotlight-top: spotlight-top 8s ease-in-out infinite;
+  --animate-spotlight-middle: spotlight-middle 8s ease-in-out infinite;
+  --animate-spotlight-bottom: spotlight-bottom 8s ease-in-out infinite;
 
   @keyframes spotlight-top {
     0%,

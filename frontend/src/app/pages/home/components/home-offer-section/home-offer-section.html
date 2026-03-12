@@ -1,8 +1,6 @@
-<section
-  class="relative left-1/2 right-1/2 w-screen font-sans text-stone-900 bg-stone-200 -translate-x-1/2"
->
-  <div class="mx-auto flex w-full max-w-7xl gap-0 px-4 py-8 md:px-6 lg:px-8">
-    <div class="flex-1 min-w-0 border">
+<section class="relative left-1/2 right-1/2 w-screen font-sans text-stone-900 -translate-x-1/2">
+  <div class="flex flex-col lg:flex-row p-20">
+    <div class="flex-1 min-w-0 h-96">
       <img
         src="https://media.istockphoto.com/id/1502960762/vector/pop-summer-sale-design-image-illustration-of-summer-bursting-with-carbonation-light-blue.jpg?s=612x612&w=0&k=20&c=TSeL7nHfQ94dIQePkNc01AcFKu9JieDP09jASJuzFJU="
         alt="Summer sale banner"
@@ -11,11 +9,26 @@
         decoding="async"
       />
     </div>
-    <div class="flex flex-row flex-1 min-w-0 border gap-4">
-      <div>{{ days() }}</div>
-      <div>{{ hours() }}</div>
-      <div>{{ minutes() }}</div>
-      <div>{{ seconds() }}</div>
+    <div class="flex flex-col items-center gap-8 p-10 bg-slate-100 flex-1 min-w-0">
+      <article>
+        <h3
+          class="text-lg font-semibold text-slate-900 underline underline-offset-8 decoration-red-500"
+        >
+          Summer Sale
+        </h3>
+        <p class="mt-3 space-y-2 text-sm text-slate-700 text-center">SALE 50%</p>
+      </article>
+      <div class="flex flex-row flex-1 min-w-0 gap-4">
+        <div>{{ days() }} Day</div>
+        <div>{{ hours() }} Hour</div>
+        <div>{{ minutes() }} Min</div>
+        <div>{{ seconds() }} Sec</div>
+      </div>
+      <button
+        class="text-lg font-semibold text-slate-900 underline underline-offset-8 decoration-red-500"
+      >
+        Shop Now
+      </button>
     </div>
   </div>
 </section>

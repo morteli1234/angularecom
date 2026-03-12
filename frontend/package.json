@@ -33,6 +33,7 @@
     "@angular/router": "^21.1.0",
     "rxjs": "~7.8.0",
     "simple-icons": "^16.10.0",
+    "swiper": "^12.1.2",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
