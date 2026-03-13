@@ -25,26 +25,26 @@ export class HomeSpotlightSectionComponent {
   protected get activeSlide(): SpotlightSlide {
     return this.carouselSlides[this.activeSlideIndex];
   }
-  @ViewChild('spotlightSwiper', { static: true })
-  private spotlightSwiper?: ElementRef;
+  // @ViewChild('spotlightSwiper', { static: true })
+  // private spotlightSwiper?: ElementRef;
 
-  ngAfterViewInit(): void {
-    const swiperEl = this.spotlightSwiper?.nativeElement as any;
-    if (!swiperEl) return;
+  // ngAfterViewInit(): void {
+  //   const swiperEl = this.spotlightSwiper?.nativeElement as any;
+  //   if (!swiperEl) return;
 
-    Object.assign(swiperEl, {
-      slidesPerView: 1,
-      spaceBetween: 0,
-      loop: true,
-      autoplay: {
-        delay: 8000,
-        disableOnInteraction: false,
-      },
-      pagination: {
-        clickable: true,
-      },
-    });
+  //   Object.assign(swiperEl, {
+  //     slidesPerView: 1,
+  //     spaceBetween: 0,
+  //     loop: true,
+  //     autoplay: {
+  //       delay: 8000,
+  //       disableOnInteraction: false,
+  //     },
+  //     pagination: {
+  //       clickable: true,
+  //     },
+  //   });
 
-    swiperEl.initialize();
-  }
+  //   swiperEl.initialize();
+  // }
 }

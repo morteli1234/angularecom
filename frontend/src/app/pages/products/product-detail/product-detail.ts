@@ -1,15 +1,19 @@
 import { AsyncPipe, CurrencyPipe, TitleCasePipe } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { combineLatest, map } from 'rxjs';
 import { CartService } from '../../../core/services/cart.service';
 import { InventoryService } from '../../../core/services/inventory.service';
+import { HomeInstagallerySectionComponent } from '../../home/components/home-instagallery-section/home-instagallery-section';
+
+HomeInstagallerySectionComponent;
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [RouterLink, AsyncPipe, CurrencyPipe, TitleCasePipe],
-  templateUrl: './product-detail.html'
+  imports: [RouterLink, AsyncPipe, CurrencyPipe, TitleCasePipe, HomeInstagallerySectionComponent],
+  templateUrl: './product-detail.html',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ProductDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
@@ -21,11 +25,11 @@ export class ProductDetailComponent implements OnInit {
   protected readonly error$ = this.inventoryService.error$;
   protected readonly productId$ = this.route.paramMap.pipe(
     map((params) => Number(params.get('id'))),
-    map((id) => (Number.isInteger(id) && id > 0 ? id : null))
+    map((id) => (Number.isInteger(id) && id > 0 ? id : null)),
   );
   protected readonly product$ = combineLatest([
     this.inventoryService.inventory$,
-    this.productId$
+    this.productId$,
   ]).pipe(
     map(([inventory, productId]) => {
       if (productId === null) {
@@ -33,7 +37,7 @@ export class ProductDetailComponent implements OnInit {
       }
 
       return inventory.find((item) => item.id === productId);
-    })
+    }),
   );
 
   ngOnInit(): void {
@@ -68,9 +72,16 @@ export class ProductDetailComponent implements OnInit {
         productId: product.id,
         title: product.title,
         price: product.price,
-        image: product.image
+        image: product.image,
       },
-      quantity
+      quantity,
     );
+  }
+  protected slidePrev(swiperEl: Element): void {
+    (swiperEl as any).swiper.slidePrev();
+  }
+
+  protected slideNext(swiperEl: Element): void {
+    (swiperEl as any).swiper.slideNext();
   }
 }
