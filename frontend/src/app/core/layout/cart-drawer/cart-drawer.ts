@@ -3,12 +3,13 @@ import { Component, input, output, inject } from '@angular/core';
 import { CartItem } from '../../../core/models/cart-item.model';
 import { CartService } from '../../../core/services/cart.service';
 import { InventoryService } from '../../../core/services/inventory.service';
+import { HotToastService } from '@ngxpert/hot-toast';
 
 @Component({
   selector: 'app-cart-drawer',
   standalone: true,
   imports: [AsyncPipe, CurrencyPipe],
-  templateUrl: './cart-drawer.html'
+  templateUrl: './cart-drawer.html',
 })
 export class CartDrawerComponent {
   readonly open = input(false);
@@ -21,6 +22,7 @@ export class CartDrawerComponent {
   protected readonly itemCount$ = this.cartService.itemCount$;
   protected readonly subtotal$ = this.cartService.subtotal$;
   protected readonly actionQuantities: Record<number, number> = {};
+  private readonly toastService = inject(HotToastService);
 
   protected onClose(): void {
     this.close.emit();
@@ -70,10 +72,11 @@ export class CartDrawerComponent {
         productId: item.productId,
         title: item.title,
         price: item.price,
-        image: item.image
+        image: item.image,
       },
-      quantityToAdd
+      quantityToAdd,
     );
+    this.toastService.success(`Added ${quantityToAdd} ${item.title} to cart`);
   }
 
   protected onRemove(item: CartItem): void {
@@ -85,5 +88,6 @@ export class CartDrawerComponent {
 
     this.cartService.removeFromCart(item.productId, quantityToRemove);
     this.inventoryService.increaseStock(item.productId, quantityToRemove);
+    this.toastService.success(`Removed ${quantityToRemove} ${item.title} from cart`);
   }
 }

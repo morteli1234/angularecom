@@ -7,6 +7,7 @@ import { CartService } from '../../../core/services/cart.service';
 import { InventoryItem } from '../../../core/models/product.model';
 import { InventoryService } from '../../../core/services/inventory.service';
 import { ProductCardComponent } from '../product-card/product-card';
+import { HotToastService } from '@ngxpert/hot-toast';
 
 interface AddToCartPayload {
   productId: number;
@@ -32,6 +33,7 @@ export class ProductListComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly currentPage = signal(1);
   private readonly pageSize = signal<8 | 10>(8);
+  private readonly toastService = inject(HotToastService);
 
   protected readonly loading$ = this.inventoryService.loading$;
   protected readonly error$ = this.inventoryService.error$;
@@ -184,5 +186,6 @@ export class ProductListComponent implements OnInit {
       },
       payload.quantity,
     );
+    this.toastService.success(`Added ${payload.quantity} ${item.title} to cart`);
   }
 }

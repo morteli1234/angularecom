@@ -5,6 +5,7 @@ import { combineLatest, map } from 'rxjs';
 import { CartService } from '../../../core/services/cart.service';
 import { InventoryService } from '../../../core/services/inventory.service';
 import { HomeInstagallerySectionComponent } from '../../home/components/home-instagallery-section/home-instagallery-section';
+import { HotToastService } from '@ngxpert/hot-toast';
 
 HomeInstagallerySectionComponent;
 
@@ -19,7 +20,7 @@ export class ProductDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly inventoryService = inject(InventoryService);
   private readonly cartService = inject(CartService);
-
+  private readonly toastService = inject(HotToastService);
   protected quantityToAdd = 1;
   protected readonly loading$ = this.inventoryService.loading$;
   protected readonly error$ = this.inventoryService.error$;
@@ -60,6 +61,7 @@ export class ProductDetailComponent implements OnInit {
     }
 
     this.quantityToAdd = Math.max(1, Math.floor(parsedValue));
+    this.toastService.success(`Quantity set to ${this.quantityToAdd}`);
   }
 
   protected onAddToCart(productId: number): void {
@@ -83,6 +85,7 @@ export class ProductDetailComponent implements OnInit {
       },
       quantity,
     );
+    this.toastService.success(`Added ${quantity} ${product.title} to cart`);
   }
   protected slidePrev(swiperEl: Element): void {
     (swiperEl as any).swiper.slidePrev();

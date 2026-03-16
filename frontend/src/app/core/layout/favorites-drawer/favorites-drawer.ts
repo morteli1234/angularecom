@@ -5,6 +5,7 @@ import { FavoritesService } from '../../../core/services/favorites.service';
 import { InventoryService } from '../../../core/services/inventory.service';
 import { CartService } from '../../services/cart.service';
 import { CartItem } from '../../models/cart-item.model';
+import { HotToastService } from '@ngxpert/hot-toast';
 
 @Component({
   selector: 'app-favorites-drawer',
@@ -19,7 +20,7 @@ export class FavoritesDrawerComponent {
   private readonly favoritesService = inject(FavoritesService);
   private readonly inventoryService = inject(InventoryService);
   private readonly cartService = inject(CartService);
-
+  private readonly toastService = inject(HotToastService);
   protected readonly favoriteItems$ = this.favoritesService.favorites$;
 
   protected onClose(): void {
@@ -32,17 +33,8 @@ export class FavoritesDrawerComponent {
     }
   }
 
-  protected onRemoveFromFavorites(productId: number): void {
-    this.favoritesService.removeFromFavorites(productId);
-  }
   protected onRemove(item: FavoriteItem): void {
     this.favoritesService.removeFromFavorites(item.productId);
-  }
-
-  protected onAddToCart(item: FavoriteItem): void {
-    const inventoryItem = this.inventoryService.getItemById(item.productId);
-    if (!inventoryItem || inventoryItem.quantity <= 0) {
-      return;
-    }
+    this.toastService.success(`Removed ${item.title} from favorites`);
   }
 }

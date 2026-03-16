@@ -25,13 +25,16 @@
           } @else {
             <ul class="m-0 flex list-none flex-col gap-3 p-0">
               @for (item of cartItems; track item.productId) {
-                <li class="grid grid-cols-[4rem_1fr] items-start gap-3 rounded-xl border border-slate-200 p-3">
+                <li
+                  class="grid grid-cols-[4rem_1fr] items-start gap-3 rounded-xl border border-slate-200 p-3"
+                >
                   <img [src]="item.image" [alt]="item.title" class="h-16 w-16 object-contain" />
 
                   <div>
                     <p class="m-0 text-sm font-semibold text-slate-900">{{ item.title }}</p>
                     <p class="my-1 text-[0.8125rem] text-slate-600">
-                      {{ item.quantity }} x {{ item.price | currency }} = {{ item.price * item.quantity | currency }}
+                      {{ item.quantity }} x {{ item.price | currency }} =
+                      {{ item.price * item.quantity | currency }}
                     </p>
 
                     <div class="flex flex-wrap items-center gap-1.5">
@@ -73,7 +76,7 @@
         </div>
         <div class="mt-2 flex items-center justify-between text-[0.925rem] text-slate-700">
           <span>Total</span>
-          <strong class="text-slate-900">{{ ((subtotal$ | async) ?? 0) | currency }}</strong>
+          <strong class="text-slate-900">{{ (subtotal$ | async) ?? 0 | currency }}</strong>
         </div>
       </footer>
     </aside>

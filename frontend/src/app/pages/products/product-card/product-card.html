@@ -45,7 +45,7 @@
       @if (showAddToCart() && item().quantity > 0) {
         <div
           class="absolute bottom-full mb-2 w-32 rounded-md bg-white border border-stone-200 shadow-lg p-2 text-center text-sm text-stone-700 opacity-0 group-hover:opacity-100 transition duration-300 hover:bg-stone-700 hover:text-white cursor-pointer active:scale-95"
-          (click)="onAddToCart(item().id)"
+          (click)="onQuickAdd()"
         >
           Quick add!
         </div>

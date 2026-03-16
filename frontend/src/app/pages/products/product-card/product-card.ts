@@ -6,6 +6,7 @@ import { CartService } from '../../../core/services/cart.service';
 import { InventoryService } from '../../../core/services/inventory.service';
 import { FavoritesService } from '../../../core/services/favorites.service';
 import { MatIcon } from '@angular/material/icon';
+import { HotToastService } from '@ngxpert/hot-toast';
 
 interface AddToCartPayload {
   productId: number;
@@ -25,6 +26,7 @@ export class ProductCardComponent {
   private readonly inventoryService = inject(InventoryService);
   private readonly cartService = inject(CartService);
   private readonly favoritesService = inject(FavoritesService);
+  private readonly toastService = inject(HotToastService);
   readonly add = output<AddToCartPayload>();
 
   protected quantityToAdd = 1;
@@ -51,6 +53,7 @@ export class ProductCardComponent {
 
   protected removeFromFavorites(): void {
     this.favoritesService.removeFromFavorites(this.item().id);
+    this.toastService.success(`Removed ${this.item().title} from favorites`);
   }
 
   showAddToCartTrue(): void {
@@ -69,29 +72,18 @@ export class ProductCardComponent {
       price: product.price,
       image: product.image,
     });
+    this.toastService.success(`Added ${product.title} to favorites`);
   }
 
-  protected onAddToCart(productId: number): void {
-    const product = this.inventoryService.getItemById(productId);
-    if (!product || product.quantity <= 0) {
+  protected onQuickAdd(): void {
+    const quantity = 1;
+
+    if (this.item().quantity <= 0) {
       return;
     }
 
-    const quantity = 1; // Quick add always adds 1
-    const didDecrease = this.inventoryService.decreaseStock(product.id, quantity);
-    if (!didDecrease) {
-      return;
-    }
-
-    this.cartService.addToCart(
-      {
-        productId: product.id,
-        title: product.title,
-        price: product.price,
-        image: product.image,
-      },
-      quantity,
-    );
+    this.add.emit({ productId: this.item().id, quantity: 1 });
+    this.toastService.success(`Added ${quantity} ${this.item().title} to cart`);
   }
 
   protected onAdd(): void {
