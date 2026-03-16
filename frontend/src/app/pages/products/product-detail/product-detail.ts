@@ -61,7 +61,6 @@ export class ProductDetailComponent implements OnInit {
     }
 
     this.quantityToAdd = Math.max(1, Math.floor(parsedValue));
-    this.toastService.success(`Quantity set to ${this.quantityToAdd}`);
   }
 
   protected onAddToCart(productId: number): void {
