@@ -27,6 +27,13 @@ export class ProductDetailComponent implements OnInit {
     map((params) => Number(params.get('id'))),
     map((id) => (Number.isInteger(id) && id > 0 ? id : null)),
   );
+
+  protected readonly pictures = [
+    '/images/oversized_shirt.jpg',
+    '/images/retro_sneakers.jpeg',
+    '/images/totes.jpeg',
+  ];
+
   protected readonly product$ = combineLatest([
     this.inventoryService.inventory$,
     this.productId$,
