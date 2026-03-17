@@ -83,7 +83,6 @@ export class ProductCardComponent {
     }
 
     this.add.emit({ productId: this.item().id, quantity: 1 });
-    this.toastService.success(`Added ${quantity} ${this.item().title} to cart`);
   }
 
   protected onAdd(): void {
