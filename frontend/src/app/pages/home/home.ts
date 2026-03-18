@@ -11,6 +11,7 @@ import { HomeTrendColumnsSectionComponent } from './components/home-trend-column
 import { ProductListComponent } from '../products/product-list/product-list';
 import { HomeInstagallerySectionComponent } from './components/home-instagallery-section/home-instagallery-section';
 import { HomeOfferSectionComponent } from './components/home-offer-section/home-offer-section';
+import { HomeInfoSection } from './components/home-info-section/home-info-section';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +23,7 @@ import { HomeOfferSectionComponent } from './components/home-offer-section/home-
     HomeTrendColumnsSectionComponent,
     HomeInstagallerySectionComponent,
     HomeOfferSectionComponent,
+    HomeInfoSection,
   ],
   templateUrl: './home.html',
 })
