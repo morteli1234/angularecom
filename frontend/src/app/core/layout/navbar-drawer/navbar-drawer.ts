@@ -36,10 +36,12 @@ export class NavbarDrawerComponent {
   protected readonly itemCount$ = this.cartService.itemCount$;
 
   protected onCartClick(): void {
+    this.close.emit();
     this.cartClick.emit();
   }
 
   protected onFavoritesClick(): void {
+    this.close.emit();
     this.favoritesClick.emit();
   }
 

@@ -75,8 +75,11 @@
           </ul>
         }
       </div>
-      <favorite-button (favoritesClick)="onFavoritesClick()"></favorite-button>
-      <cart-button (cartClick)="onCartClick()"></cart-button>
+      <favorite-button
+        class="hidden md:block"
+        (favoritesClick)="onFavoritesClick()"
+      ></favorite-button>
+      <cart-button class="hidden md:block" (cartClick)="onCartClick()"></cart-button>
 
       <button class="hidden md:block">Login</button>
       <button class="hidden md:block">Register</button>
